@@ -7,7 +7,7 @@ services:
                 user: alisson
                 uid: 1000
             context: ./
-            dockerfile: ./docker/app/Dockerfile
+            dockerfile: ./docker/curso_api_cache/Dockerfile
         image: laravel-app
         restart: unless-stopped
         working_dir: /var/www/
