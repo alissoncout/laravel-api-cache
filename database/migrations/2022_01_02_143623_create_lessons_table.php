@@ -18,7 +18,7 @@ class CreateLessonsTable extends Migration
             $table->foreignId('module_id')->constrained('modules');
             $table->uuid('uuid');
             $table->string('name')->unique();
-            $table->string('video'); //URL
+            $table->string('video')->unique(); //URL
             $table->string('description')->nullable();
             $table->timestamps();
         });
