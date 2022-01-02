@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Course;
-use phpDocumentor\Reflection\Types\Boolean;
+use Illuminate\Support\Facades\Cache;
 
 class CourseRepository
 {
@@ -14,17 +14,18 @@ class CourseRepository
         $this->model = $model;
     }
 
-    public function getAllCourses(bool $loadRelationships = true)
+    public function getAllCourses()
     {
-        $query = $this->model;
-        if($loadRelationships){
-            $query = $query->with('modules.lessons');
-        }
-        return $query->get();
+        return Cache::rememberForever('courses', function () {
+            return $this->model->with('modules.lessons')->get();
+        });
+        
     }
 
     public function createNewCourse(array $data)
     {
+        Cache::forget('courses');
+
         return $this->model->create($data);
     }
 
@@ -39,7 +40,9 @@ class CourseRepository
 
     public function deleteCourseByUuid(string $identify)
     {
-        $course = $this->getCourseByUuid($identify);
+        $course = $this->getCourseByUuid($identify, false);
+
+        Cache::forget('courses');
 
         return $course->delete();
     }
@@ -47,7 +50,9 @@ class CourseRepository
 
     public function updateCourseByUuid(string $identify, array $data)
     {
-        $course = $this->getCourseByUuid($identify);
+        $course = $this->getCourseByUuid($identify, false);
+
+        Cache::forget('courses');
 
         return $course->update($data);
     }
