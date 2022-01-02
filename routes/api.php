@@ -1,9 +1,14 @@
 <?php
 
-use App\Http\Controllers\Api\CourseController;
-use App\Http\Controllers\Api\ModuleController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\{
+    CourseController,
+    ModuleController,
+    LessonController
+};
 use Illuminate\Support\Facades\Route;
+
+
+Route::apiResource('/modules/{module_identify}/lessons', LessonController::class);
 
 Route::apiResource('/courses/{course_identify}/modules', ModuleController::class);
 
