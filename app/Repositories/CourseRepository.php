@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Course;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class CourseRepository
 {
@@ -13,9 +14,13 @@ class CourseRepository
         $this->model = $model;
     }
 
-    public function getAllCourses()
+    public function getAllCourses(bool $loadRelationships = true)
     {
-        return $this->model->get();
+        $query = $this->model;
+        if($loadRelationships){
+            $query = $query->with('modules.lessons');
+        }
+        return $query->get();
     }
 
     public function createNewCourse(array $data)
@@ -23,9 +28,13 @@ class CourseRepository
         return $this->model->create($data);
     }
 
-    public function getCourseByUuid(string $identify)
+    public function getCourseByUuid(string $identify, bool $loadRelationships = true)
     {
-        return $this->model->where('uuid', $identify)->firstOrFail();
+        $query = $this->model;
+        if($loadRelationships){
+            $query = $query->with('modules.lessons');
+        }
+        return $query->where('uuid', $identify)->firstOrFail();
     }
 
     public function deleteCourseByUuid(string $identify)
