@@ -38,10 +38,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Execute commands SSH
-        uses: garygrossgarten/github-action-ssh@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          command: ls -a
+          script: |
+            ls -la
