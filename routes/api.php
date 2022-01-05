@@ -20,6 +20,6 @@ Route::delete('/courses/{identify}', [CourseController::class, 'destroy']);
 
 Route::get('/', function () {
     return response()->json(
-        ['message' => 'OK']
+        ['message' => 'OK - atualizado']
     );
 });
