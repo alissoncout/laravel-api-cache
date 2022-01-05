@@ -18,6 +18,7 @@ services:
             - queue
         networks: 
             - cursoapicache
+            - mysql
     
     # nginx
     nginx:
@@ -59,3 +60,5 @@ services:
 networks: 
     cursoapicache:
         driver: bridge
+    mysql:
+        external: true
